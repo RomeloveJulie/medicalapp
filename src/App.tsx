@@ -231,32 +231,53 @@ export default function App() {
       </header>
 
       {/* Main Content - Flex Grow to push nav down */}
-      <main className="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+      <main className="flex-grow max-w-6xl mx-auto px-4 py-8 w-full mb-20">
         <AnimatePresence mode="wait">
           {view === 'form' && (
-            <MedicalForm 
+            <motion.div
               key={editingSubmission ? `edit-${editingSubmission.id}` : 'new-form'}
-              userEmail={user.email} 
-              initialData={editingSubmission?.data}
-              submissionId={editingSubmission?.id}
-              readOnly={isReadOnly}
-              onSuccess={handleFormSuccess} 
-            />
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <MedicalForm 
+                userEmail={user.email} 
+                initialData={editingSubmission?.data}
+                submissionId={editingSubmission?.id}
+                readOnly={isReadOnly}
+                onSuccess={handleFormSuccess} 
+              />
+            </motion.div>
           )}
           {view === 'history' && (
-            <Dashboard 
-              key="history" 
-              userEmail={user.email} 
-              onEdit={handleEdit}
-              onView={handleView}
-            />
+            <motion.div
+              key="history"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Dashboard 
+                userEmail={user.email} 
+                onEdit={handleEdit}
+                onView={handleView}
+              />
+            </motion.div>
           )}
           {view === 'dashboard' && user.role === 'staff' && (
-            <Dashboard 
-              key="dashboard" 
-              userEmail={user.email} 
-              onView={handleView}
-            />
+            <motion.div
+              key="dashboard"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Dashboard 
+                userEmail={user.email} 
+                onView={handleView}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
       </main>

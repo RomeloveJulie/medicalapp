@@ -67,15 +67,18 @@ export const MedicalForm: React.FC<FormProps> = ({ userEmail, onSuccess, initial
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (readOnly) {
-      if (step < totalSteps) {
-        setStep(step + 1);
-        window.scrollTo(0, 0);
-      } else {
-        onSuccess(); // Just close it
-      }
+    
+    if (step < totalSteps) {
+      setStep(step + 1);
+      window.scrollTo(0, 0);
       return;
     }
+
+    if (readOnly) {
+      onSuccess(); // Just close it
+      return;
+    }
+
     setLoading(true);
     try {
       const url = submissionId ? `/api/submissions/${submissionId}` : '/api/submissions';
